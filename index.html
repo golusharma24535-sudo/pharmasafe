@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f7fb">
+  <title>PharmaSafe — Medicine Inventory</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#" aria-label="PharmaSafe home">
+      <span class="brand-mark">✚</span>
+      <span><strong>PharmaSafe</strong><small>INVENTORY ASSISTANT</small></span>
+    </a>
+    <div class="side-label">WORKSPACE</div>
+    <a class="nav-item active" href="#dashboard"><span class="nav-icon">▦</span> Dashboard</a>
+    <a class="nav-item" href="#inventory"><span class="nav-icon">▤</span> Medicine inventory</a>
+    <a class="nav-item" href="#medicine-form"><span class="nav-icon">＋</span> Add medicine</a>
+    <div class="sidebar-bottom">
+      <div class="sidebar-tip"><span class="tip-icon">✦</span><strong>Stay organised</strong><p>Keep batch and expiry details up to date. Always verify alerts against the physical pack.</p></div>
+      <div class="side-footer">PHARMASAFE · STUDENT PROJECT</div>
+    </div>
+  </aside>
+
+  <main class="main-content" id="dashboard">
+    <header class="topbar">
+      <div class="mobile-brand"><span class="brand-mark">✚</span><strong>PharmaSafe</strong></div>
+      <div class="breadcrumb">Workspace <span>/</span> <strong>Dashboard</strong></div>
+      <div class="topbar-right"><span class="status-dot"></span><span>Local demo</span><span class="avatar">PS</span></div>
+    </header>
+
+    <section class="page-heading">
+      <div>
+        <div class="eyebrow">PHARMACY INVENTORY</div>
+        <h1>Good day! <span class="wave">✦</span></h1>
+        <p>Here’s an overview of your medicine stock and expiry status.</p>
+      </div>
+      <div class="heading-actions">
+        <button class="btn btn-outline" id="export" type="button"><span>↓</span> Export CSV</button>
+        <button class="btn btn-primary" id="addNew" type="button"><span>＋</span> Add medicine</button>
+      </div>
+    </section>
+
+    <div class="prototype-notice"><span class="notice-icon">ⓘ</span><div><strong>Educational prototype</strong><span>Your records are saved in this browser on this device only. This is not a validated pharmacy system. Verify inventory and expiry information manually.</span></div></div>
+
+    <section class="stats-grid" aria-label="Inventory summary">
+      <article class="stat-card">
+        <div class="stat-top"><span class="stat-label">Total products</span><span class="stat-icon blue">▤</span></div>
+        <div class="stat-number" id="total">0</div><div class="stat-foot">Unique medicine records</div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-top"><span class="stat-label">Total units</span><span class="stat-icon violet">▦</span></div>
+        <div class="stat-number" id="units">0</div><div class="stat-foot">Units recorded in stock</div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-top"><span class="stat-label">Expiring soon</span><span class="stat-icon amber">◷</span></div>
+        <div class="stat-number" id="soon">0</div><div class="stat-foot"><span class="mini-dot amber-dot"></span>Within the next 30 days</div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-top"><span class="stat-label">Expired</span><span class="stat-icon red">!</span></div>
+        <div class="stat-number" id="expired">0</div><div class="stat-foot"><span class="mini-dot red-dot"></span>Check these records</div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-top"><span class="stat-label">Low stock</span><span class="stat-icon green">↘</span></div>
+        <div class="stat-number" id="low">0</div><div class="stat-foot"><span class="mini-dot green-dot"></span>At or below threshold</div>
+      </article>
+    </section>
+
+    <section class="panel form-panel" id="medicine-form">
+      <div class="panel-heading">
+        <div><div class="section-kicker">INVENTORY MANAGEMENT</div><h2 id="formTitle">Add medicine record</h2><p>Enter the medicine and batch details below.</p></div>
+        <span class="form-step">01 <span>/</span> RECORD</span>
+      </div>
+      <form id="form">
+        <input type="hidden" id="id">
+        <div class="fields">
+          <label>Medicine name <span class="required">*</span><input id="name" required maxlength="80" placeholder="e.g. Paracetamol 500 mg" autocomplete="off"></label>
+          <label>Batch number <span class="required">*</span><input id="batch" required maxlength="40" placeholder="e.g. PCM-2401" autocomplete="off"></label>
+          <label>Expiry date <span class="required">*</span><input id="expiry" type="date" required></label>
+          <label>Quantity (units) <span class="required">*</span><input id="qty" type="number" min="0" step="1" required placeholder="e.g. 120"></label>
+          <label>Low-stock threshold <span class="required">*</span><input id="threshold" type="number" min="0" step="1" value="10" required></label>
+          <label>Category<select id="category"><option>Tablet</option><option>Capsule</option><option>Syrup</option><option>Injection</option><option>Ointment/Cream</option><option>Other</option></select></label>
+        </div>
+        <div class="form-actions"><p id="message" aria-live="polite"></p><div class="button-group"><button class="btn btn-quiet" type="button" id="clear">Clear form</button><button class="btn btn-outline" type="button" id="cancel" hidden>Cancel edit</button><button class="btn btn-primary" id="save" type="submit"><span>＋</span> Save medicine</button></div></div>
+      </form>
+    </section>
+
+    <section class="panel inventory-panel" id="inventory">
+      <div class="panel-heading inventory-heading">
+        <div><div class="section-kicker">YOUR STOCK</div><h2>Medicine inventory</h2><p>Search, review, and manage your saved records.</p></div>
+        <button class="btn btn-danger-outline" type="button" id="clearAll">Delete all records</button>
+      </div>
+      <div class="table-toolbar">
+        <label class="search-box"><span>⌕</span><input id="search" type="search" placeholder="Search medicine or batch..." aria-label="Search medicine or batch"></label>
+        <label class="filter-box"><span>Filter status</span><select id="filter" aria-label="Filter by status"><option value="all">All records</option><option value="expired">Expired</option><option value="soon">Expiring within 30 days</option><option value="low">Low stock</option><option value="ok">No current alert</option></select></label>
+        <button class="btn btn-outline toolbar-export" id="export2" type="button">↓ Export</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>MEDICINE / BATCH</th><th>CATEGORY</th><th>EXPIRY DATE</th><th>QUANTITY</th><th>STATUS</th><th>ACTIONS</th></tr></thead>
+          <tbody id="body"></tbody>
+        </table>
+        <div id="empty" class="empty-state"><div class="empty-icon">▤</div><strong>No medicine records yet</strong><p>Add a medicine above or load sample records to explore the dashboard.</p><button class="btn btn-outline" id="sample" type="button">Load sample data</button></div>
+      </div>
+      <div class="table-footer"><span id="recordCount">Showing 0 records</span><span>Dates use your device’s local date</span></div>
+      <p class="footnote">Check the physical packaging and official records before taking action on any expiry or stock alert.</p>
+    </section>
+
+    <footer class="app-footer"><span>✚ <strong>PharmaSafe</strong> <span class="footer-muted">· Educational innovation prototype</span></span><span>Built for learning, not clinical decisions.</span></footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
